@@ -226,7 +226,11 @@ OAuthClient.prototype.refresh = function refresh() {
       const authResponse = res.json ? res : null;
       const json = (authResponse && authResponse.json) || res;
       this.token.setToken(json);
-      this.log('info', 'Refresh Token () response is : ', JSON.stringify(authResponse.json, null, 2));
+      this.log(
+        'info',
+        'Refresh Token () response is : ',
+        JSON.stringify(authResponse.json, null, 2),
+      );
       return authResponse;
     })
     .catch((e) => {
@@ -318,7 +322,11 @@ OAuthClient.prototype.revoke = function revoke(params) {
     .then((res) => {
       const authResponse = res.json ? res : null;
       this.token.clearToken();
-      this.log('info', 'Revoke Token () response is : ', JSON.stringify(authResponse.json, null, 2));
+      this.log(
+        'info',
+        'Revoke Token () response is : ',
+        JSON.stringify(authResponse.json, null, 2),
+      );
       return authResponse;
     })
     .catch((e) => {
@@ -404,7 +412,11 @@ OAuthClient.prototype.makeApiCall = function makeApiCall(params) {
   })
     .then((res) => {
       const authResponse = res.json ? res : null;
-      this.log('info', 'The makeAPICall () response is : ', JSON.stringify(authResponse.json, null, 2));
+      this.log(
+        'info',
+        'The makeAPICall () response is : ',
+        JSON.stringify(authResponse.json, null, 2),
+      );
       return authResponse;
     })
     .catch((e) => {
@@ -476,8 +488,7 @@ OAuthClient.prototype.getKeyFromJWKsURI = function getKeyFromJWKsURI(id_token, k
     .then((response) => {
       if (Number(response.status) !== 200) throw new Error('Could not reach JWK endpoint');
       // Find the key by KID
-      const responseBody = JSON.parse(response.body);
-      const key = responseBody.keys.find((el) => el.kid === kid);
+      const key = response.data.keys.find((el) => el.kid === kid);
       const cert = this.getPublicKey(key.n, key.e);
 
       return jwt.verify(id_token, cert);
