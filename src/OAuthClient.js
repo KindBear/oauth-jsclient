@@ -325,7 +325,7 @@ OAuthClient.prototype.revoke = function revoke(params) {
       this.log(
         'info',
         'Revoke Token () response is : ',
-        JSON.stringify(authResponse.json, null, 2),
+        JSON.stringify(authResponse?.json, null, 2),
       );
       return authResponse;
     })
